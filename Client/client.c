@@ -14,6 +14,7 @@
 #define sendrecvflag 0 
 #define nofile "File Not Found!" 
 #define yesfile "The File Already Exists!"
+#define searchDir "dir"
 
 // function to clear buffer 
 void clearBuf(char* b) 
@@ -73,15 +74,15 @@ int checkSend(char* buf, int s)
 // driver code 
 int main(int argc, char *argv[]) 
 { 
-	int sockfd, nBytes; 
+	int sockfd, nBytes, dirFlag; 
 	struct sockaddr_in addr_con;
 	int addrlen = sizeof(addr_con); 
 	addr_con.sin_family = AF_INET;
 	addr_con.sin_port = htons(atoi(argv[2]));
-
 	addr_con.sin_addr.s_addr = inet_addr(argv[1]);
-
-	char net_buf[NET_BUF_SIZE]; 
+	char net_buf[NET_BUF_SIZE];
+	char dir_buf[NET_BUF_SIZE]; 
+	strcpy(dir_buf, searchDir);
 	FILE* fp; 
 
 	// socket() 
@@ -104,6 +105,8 @@ int main(int argc, char *argv[])
 		printf("\nPlease enter file name to send to Server:\n"); 
 		scanf("%s", net_buf); 
 
+		if (!strcmp(net_buf, dir_buf)) dirFlag = 1;		
+
 		//Send file name
 		sendto(sockfd, net_buf, NET_BUF_SIZE, 
 			sendrecvflag, (struct sockaddr*)&addr_con, 
@@ -124,6 +127,8 @@ int main(int argc, char *argv[])
 			printf("File will not be sent\n");
 			clearBuf(net_buf);
 			break; 
+		} else if(dirFlag) {
+			printf("Registered as dir");
 		} else {
 			printf("Made it past check send\n");
 			puts(net_buf);
@@ -138,7 +143,8 @@ int main(int argc, char *argv[])
 			while (1) { 
 
 				printf("Made it to process and send\n");
-				// process 
+				
+			// process 
 			if (sendFile(fp, net_buf, NET_BUF_SIZE)) { 
 				sendto(sockfd, net_buf, NET_BUF_SIZE, 
 					sendrecvflag, 

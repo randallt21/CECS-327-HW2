@@ -42,10 +42,10 @@ int recvFile(FILE* fp, char* buf, int s)
 		if (ch == EOF) 
 			return 1; 
 		else
-			printf("%c\t", ch);
-			fseek(fp, 0, SEEK_CUR );   /* Add this line */
+			printf("%c", ch);
+			fseek(fp, 0, SEEK_END);
 	    	int err = fputc(ch, fp);
-    		printf ("err=%d\n", err);
+    		//printf ("err=%d\n", err);
 	} 
 	return 0; 
 } 
@@ -78,7 +78,6 @@ int main(int argc, char *argv[])
 	int addrlen = sizeof(addr_con); 
 	addr_con.sin_family = AF_INET; 
 	addr_con.sin_port = htons(atoi(argv[1])); 
-
 	addr_con.sin_addr.s_addr = INADDR_ANY; 
 	char net_buf[NET_BUF_SIZE];
 	char dir_buf[NET_BUF_SIZE];
@@ -140,8 +139,8 @@ int main(int argc, char *argv[])
 				if (recvFile(fp, net_buf, NET_BUF_SIZE)) { 
 					break; 
 				}
-				if (fp != NULL) fclose(fp);
 			}
+			if (fp != NULL) fclose(fp);
 		}
 	} 
 	return 0; 
