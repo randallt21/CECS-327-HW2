@@ -140,8 +140,8 @@ int main(int argc, char *argv[])
 				if (recvFile(fp, net_buf, NET_BUF_SIZE)) { 
 					break; 
 				}
-				if (fp != NULL) fclose(fp);
 			}
+            if (fp != NULL) fclose(fp);
 		}
 	} 
 	return 0; 
