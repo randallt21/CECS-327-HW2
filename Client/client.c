@@ -9,7 +9,7 @@
 #include <unistd.h> 
 
 #define IP_PROTOCOL 0
-#define NET_BUF_SIZE 32 
+#define NET_BUF_SIZE 128
 #define cipherKey 'S' 
 #define sendrecvflag 0 
 #define nofile "File Not Found!" 

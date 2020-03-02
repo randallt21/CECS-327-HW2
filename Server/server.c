@@ -9,7 +9,7 @@
 #include <unistd.h> 
 
 #define IP_PROTOCOL 0 
-#define NET_BUF_SIZE 32 
+#define NET_BUF_SIZE 128
 #define cipherKey 'S' 
 #define sendrecvflag 0 
 #define connectionEstablished "Connection Established"
@@ -35,17 +35,17 @@ char Cipher(char ch)
 int recvFile(FILE* fp, char* buf, int s) 
 { 
 	int i; 
-	char ch; 
-	for (i = 0; i < s; i++) { 
+	char ch;
+    fseek(fp, 0, SEEK_SET );
+	for (i = 0; i < s; i++) {
 		ch = buf[i]; 
 		ch = Cipher(ch); 
 		if (ch == EOF) 
 			return 1; 
 		else
 			printf("%c\t", ch);
-			fseek(fp, 0, SEEK_CUR );   /* Add this line */
-	    	int err = fputc(ch, fp);
-    		printf ("err=%d\n", err);
+	    	char err = fputc(ch, fp);
+    		printf ("err=%c\n", err);
 	} 
 	return 0; 
 } 
