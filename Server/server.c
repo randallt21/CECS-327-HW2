@@ -43,7 +43,6 @@ int recvFile(FILE* fp, char* buf, int s)
 			return 1; 
 		else
 			printf("%c", ch);
-			fseek(fp, 0, SEEK_END);
 	    	int err = fputc(ch, fp);
     		//printf ("err=%d\n", err);
 	} 
